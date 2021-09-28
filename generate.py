@@ -95,8 +95,8 @@ class CrosswordCreator():
         """
         self.enforce_node_consistency()        
         self.ac3()
-        print()
-        print("Inicia backtrack")
+        #print()
+        #print("Inicia backtrack")
         return self.backtrack(dict())
 
     def enforce_node_consistency(self):
@@ -111,7 +111,7 @@ class CrosswordCreator():
                 if variable.length == len(palabra):
                     listaTemporal.append(palabra) 
             self.domains[variable] = listaTemporal
-        self.print_state("Fin enforce_node_consistency")
+        #self.print_state("Fin enforce_node_consistency")
 
     def print_state(self, state):
         """ Imprime las variables junto con 
@@ -171,7 +171,7 @@ class CrosswordCreator():
                     return False
                 for vecina in self.crossword.neighbors(x) - {y}:
                     arcs.put((vecina, x))
-        self.print_state("Fin ac3")
+        #self.print_state("Fin ac3")
         return True
 
         #raise NotImplementedError
@@ -224,6 +224,10 @@ class CrosswordCreator():
             if VarVecina not in assignment.keys():
                 VecinosAfectados[VarVecina] = 0
         dictPalabras = dict()
+
+        for palabra in listaPosiblesVar:
+            dictPalabras[palabra] = 0
+
         for palPosibleVar in listaPosiblesVar:
             for afectado in VecinosAfectados.keys():
                 cruce = self.crossword.overlaps[var, afectado]
@@ -294,21 +298,14 @@ def main():
 
     # Empieza comentarizacion para depurar
     ## Check usage
-    # if len(sys.argv) not in [3, 4]:
-    #     sys.exit("Usage: python generate.py structure words [output]")
+    if len(sys.argv) not in [3, 4]:
+        sys.exit("Usage: python generate.py structure words [output]")
 
-    ## Parse command-line arguments    
-    # structure = sys.argv[1]
-    # words = sys.argv[2]
-    # output = sys.argv[3] if len(sys.argv) == 4 else None
-    # Fin comentarizacion para depurar
-
-    # Empieza modificaion para depurar    
-    structure = "data/structure2.txt"
-    words = "data/words2.txt"
+    # Parse command-line arguments    
+    structure = sys.argv[1]
+    words = sys.argv[2]
     output = sys.argv[3] if len(sys.argv) == 4 else None
-    # Fin modificaion para depurar
-
+    # Fin comentarizacion para depurar
 
     # Generate crossword
     crossword = Crossword(structure, words)
